@@ -1,7 +1,5 @@
 package com.example.musicplayer.ui.theme
 
-
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayer.data.MusicRepository
@@ -27,10 +25,6 @@ class PlayerViewModel @Inject constructor(
     val uiState: StateFlow<MusicUiState> = _uiState.asStateFlow()
 
     private var progressUpdateJob: Job? = null
-
-    init {
-        // initialization moved to initViewModel() to facilitate testing
-    }
 
     fun initViewModel() {
         playerController.initialize()
@@ -95,6 +89,10 @@ class PlayerViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+         releaseResources()
+    }
+
+    fun releaseResources() {
         progressUpdateJob?.cancel()
         playerController.release()
     }
